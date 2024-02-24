@@ -53,7 +53,7 @@
 
     
 <div class="d-flex justify-content-center">
-    <form class="row g-3 form-group w-50" action="https://getform.io/f/9avWVmbG" method="POST">
+    <form class="row g-3 form-group w-50" name="submit-to-google-sheet">
         <div class="col-md-6">
             <label for="fname" class="form-label">First Name <b class="text-danger">*</b></label>
             <input type="text"  class="form-control" id="fname" name="name" required>
@@ -64,40 +64,41 @@
           </div>
         <div class="col-md-6">
           <label for="inputEmail4" class="form-label">Email <b class="text-danger">*</b></label>
-          <input type="email" name="email" class="form-control" id="inputEmail4">
+          <input type="email" required name="email" class="form-control" id="inputEmail4">
         </div>
         <div class="col-md-6">
           <label for="phone" class="form-label">Phone Number <b class="text-danger">*</b></label>
-          <input  type="number" name="number" class="form-control" id="phone">
+          <input  type="number" required name="number" class="form-control" id="phone">
         </div>
         <div class="col-12">
             <label for="senderaddress" class="form-label">Your Full Address <b class="text-danger">*</b></label>
-            <input type="text" name="name3" class="form-control" id="senderaddress" placeholder="Address of the person filling the form">
+            <input type="text" required name="name3" class="form-control" id="senderaddress" placeholder="Address of the person filling the form">
           </div>
         <div class="col-md-6">
             <label for="who?" class="form-label">Who Are You Applying For? <b class="text-danger">*</b></label>
-            <input type="text" name="name4" class="form-control" id="who?" placeholder="E.g., Husband/Fiance or Wife/Fiancee or others">
+            <input type="text" required name="name4" class="form-control" id="who?" placeholder="E.g., Husband/Fiance or Wife/Fiancee or others">
           </div>
           <div class="col-md-6">
             <label for="personname" class="form-label">The Person's Current Location <b class="text-danger">*</b></label>
-            <input type="text" name="name5" class="form-control" id="personname">
+            <input type="text" required name="name5" class="form-control" id="personname">
           </div>
         <div class="col-12">
           <label for="vacationduration" class="form-label">Vacation Duration <b class="text-danger">*</b></label>
-          <input type="text" class="form-control" id="vacationduration" name="name6" placeholder="How many weeks vacation?">
+          <input type="text" required class="form-control" id="vacationduration" name="name6" placeholder="How many weeks vacation?">
         </div>
         <div class="col-md-6">
             <label for="firstname" class="form-label" >First Name <b class="text-danger">*</b></label>
-            <input type="text" name="name7" class="form-control" id="firstname">
+            <input type="text" name="name7" required class="form-control" id="firstname">
           </div>
           <div class="col-md-6">
             <label for="lastname" class="form-label">Last Name <b class="text-danger">*</b></label>
-            <input type="text" name="name8" class="form-control" id="lastname" >
+            <input type="text" required name="name8" class="form-control" id="lastname" >
           </div>
         <div class="col-md-4">
           <label for="textarea" class="form-label">Additional Information</label>
           <textarea name="name9" id="textarea" cols="50" rows="5" class="form-label"></textarea>
         </div>
+        <span style="font-size: 25px; color: rgb(16, 228, 16);" id="msg"></span>
         <div class="col-12">
           <button type="submit" id="submitbtn" class="btn btn-lg btn-primary">Submit</button>
         </div>
@@ -105,6 +106,7 @@
         <br>
         <p class="notebelow"><em><b>If you are having issues with the form submission, kindly send your details in a formal written letter to our email address below. </b></em></p>
       </form>
+      
       
     </div>
 
@@ -131,6 +133,28 @@
         </footer>
     </div>
 
+
+
+  <script type="text/javascript">
+    //Form submission script
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyHuJJUl2-qhRogPUxnH-jdXLso2XYLd-VZdXE6ut6uNJcMSn-TfvMfdvk1F3Vyu7a4Pw/exec'
+    const form = document.forms['submit-to-google-sheet']
+
+    const msg = document.getElementById('msg')
+  
+    form.addEventListener('submit', e => {
+      e.preventDefault()
+      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+        .then(response => {
+            msg.innerHTML = "Thank You! Your message was successful."
+            setTimeout(function(){
+                msg.innerHTML = "";
+            }, 3000)
+            form.reset();
+        })
+        .catch(error => console.error('Error!', error.message))
+    })
+  </script>
 
     
 </body>
